@@ -7,13 +7,18 @@
   <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <body class="container">
-  <div class='row buttons-view'>buttons</div>
+  <div class='row button-display'>buttons</div>
   <div class='row'>
-    <main class='col-8'>
+    <main class='col-8 gif-display'>
       Gifs go here
     </main>
-    <div class="col-4">
-      Search goes here
+    <div class="col-4 search">
+        <form>
+          Add a topic!:<br>
+          <input class="text-input" type="text" name="keyword" placeholder="Keyword"><br>
+          <br>
+          <input class="btn btn-danger btn-md" type="submit">
+        </form>
     </div>
   </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

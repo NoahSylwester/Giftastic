@@ -3,3 +3,11 @@
   border: 0;
   padding: 0;
 }
+
+.text-input {
+  border: solid 1px black;
+}
+
+.btn-topic {
+  margin: 1px;
+}
