@@ -28,7 +28,7 @@ var newTopic = "";
     }).then((response) => {
       console.log(response);
       response.data.forEach((gif) => {
-        arr.push($(`<div class="gif"><p class="gif-rating">Rating: ${gif.rating}</p><img class="gif-image" src="${gif.images.downsized.url}"></div>`))
+        arr.push($(`<div class="gif"><p class="gif-rating">Rating: ${gif.rating}</p><img class="gif-image" alt="gif" src="${gif.images.downsized_still.url}" data-alt="${gif.images.downsized.url}"></div>`))
       });
       gifDisplay.empty().append(...arr);
     });
@@ -43,6 +43,12 @@ var newTopic = "";
     $('.text-input').val("");
   }
 
+  // animate gif for click event
+  function animateGif(gif) {
+    var alt = $(gif).data('alt');
+    $(gif).data("alt", $(gif).attr('src'));
+    $(gif).attr({"src":alt});
+  }
 
 
 // event listeners for buttons
@@ -59,6 +65,10 @@ $('.user-submit').on("click", function(event) {
     updateGifs(newTopic);
   }
 });
+
+gifDisplay.on("click", ".gif-image", function(event) {
+  animateGif(this);
+})
 
 
 // initial function calls
