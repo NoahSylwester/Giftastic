@@ -4,6 +4,11 @@
   padding: 0;
 }
 
+html {
+  border: solid 7px whitesmoke;
+  border-radius: 5px;
+}
+
 body {
   background: url("../images/paper_3.png");
 }
@@ -25,6 +30,7 @@ form {
   margin-top: 5px;
   padding: 2px;
   width: 100%;
+  border-radius: 3px;
 }
 
 .btn-topic {
@@ -40,6 +46,30 @@ form {
   border: solid 2px whitesmoke;
   border-radius: 10px;
   padding: 2px;
+  position: relative;
+}
+
+.fa-heart {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: pink;
+}
+
+.not-favorite {
+  opacity: 0.1;
+}
+
+.favorite {
+  opacity: 1;
+}
+
+.not-favorite:hover {
+  opacity: 0.4;
+}
+
+.favorite:hover {
+  opacity: 0.8;
 }
 
 .gif-rating {
