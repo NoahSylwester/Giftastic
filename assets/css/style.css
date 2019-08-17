@@ -86,12 +86,16 @@ form {
   border-radius: 5px;
 }
 
-.favorites {
+.favorites-holder {
   background: white;
   padding: 15px;
   border: solid 2px whitesmoke;
   border-radius: 5px;
-  text-align: center;
   margin-top: 5px;
-  
+}
+
+.favorites {
+  background: white;
+  border-radius: 5px;
+  margin-top: 5px;
 }

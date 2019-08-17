@@ -77,15 +77,32 @@ gifDisplay.on("click", ".gif-image", function(event) { // animate gif
 gifDisplay.on("click", ".not-favorite", function(event) { // add favorite
   $(this).removeClass('not-favorite').addClass('favorite');
   if (!favorites.includes($(this).parent())){
-    favorites.push($(this).parent());
+    favorites.push($(this).parent().clone());
   }
+  $('.favorites').empty().append(favorites);
 });
 
 gifDisplay.on("click", ".favorite", function(event) { // remove favorite
   $(this).removeClass('favorite').addClass('not-favorite');
   favorites.splice(favorites[$(this).parent()],1);
+  $('.favorites').empty().append(favorites);
 });
 
+$('.favorites-holder').on("click", ".favorite", function(event) { // remove favorite from within favorites holder
+  $(this).removeClass('favorite').addClass('not-favorite');
+  favorites.splice(favorites[$(this).parent()],1);
+  $('.favorites').empty().append(favorites);
+  console.log($('.gif-display .gif .gif-image')[0]);
+  // synchronizes favorites icon appearance in gif viewer
+  // $('.gif-display .gif .gif-image').forEach((element) => {
+  //   if ($(element).data('alt') === $(this).attr('src') ||
+  //       $(element).data('alt') === $(this).data('alt') ||
+  //       $(element).attr('src') === $(this).data('alt') ||
+  //       $(element).attr('src') === $(this).attr('src')) {
+  //         $(element).removeClass('favorite').addClass('not-favorite');
+  //       };
+  // });
+});
 
 // initial function calls
 updateButtons();
