@@ -19,6 +19,12 @@
 .gif {
   height: 200px;
   width: 30%;
-  object-fit: cover;
   margin: 2px;
+  display: inline-block;
+}
+
+.gif-image {
+  object-fit: cover;
+  height: 80%;
+  width: 100%;
 }
