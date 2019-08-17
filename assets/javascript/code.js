@@ -3,21 +3,11 @@ var buttonDisplay = $('.button-display');
 var gifDisplay = $('.gif-display');
 
 // initialize topics array
-var topics = ["kittens", "puppies", "goslings", "wombats", "bear cubs"];
+var topics = ["kittens", "puppies", "ducklings", "wombats", "bear cubs", 'ferrets'];
 var arr = [];
+var newTopic = "";
 
 // define functions
-
-  // query giphy api
-  function apiQuery(keyword) {
-    let queryUrl = "api.giphy.com/v1/gifs/search?api_key=nQtvdLS8RFmfo0CBFedERtrhHTq8NXas&q=" + keyword + "&limit=10";
-    $.ajax({
-      url: queryUrl,
-      method: "GET"
-    }).then((response) => {
-      console.log(response);
-    });
-  };
 
   // update .buttons-view
   function updateButtons() {
@@ -29,10 +19,48 @@ var arr = [];
   };
 
   // update .gifs-view
-  function updateGifs() {
-    gifDisplay.empty().append();
+  function updateGifs(keyword) {
+    arr = [];
+    let queryUrl = "https://api.giphy.com/v1/gifs/search?api_key=nQtvdLS8RFmfo0CBFedERtrhHTq8NXas&q=" + keyword + "&limit=10";
+    $.ajax({
+      url: queryUrl,
+      method: "GET"
+    }).then((response) => {
+      console.log(response);
+      response.data.forEach((gif) => {
+        arr.push($(`<img class="gif" src="${gif.images.downsized.url}">`))
+      });
+      gifDisplay.empty().append(...arr);
+    });
   };
 
-  // search giphy api user input terms
+  // search function for giphy api user input terms
+  function userSubmit() {
+    newTopic = $(".text-input").val().trim();
+    if (!topics.includes(newTopic) && newTopic !== "") {
+      topics.push(newTopic);
+    }
+    $('.text-input').val("");
+  }
 
+
+
+// event listeners for buttons
+buttonDisplay.on("click", ".btn-topic", function(event) {
+  event.preventDefault();
+  updateGifs($(this).text());
+});
+
+$('.user-submit').on("click", function(event) {
+  event.preventDefault();
+  userSubmit();
   updateButtons();
+  if (newTopic !== ""){
+    updateGifs(newTopic);
+  }
+});
+
+
+// initial function calls
+updateButtons();
+updateGifs("kittens");
