@@ -10,6 +10,9 @@ var newTopic = "";
 // initialize favorites array
 var favorites = [];
 
+// initialize zoom boolean
+var zoom = false;
+
 // define functions
 
   // update .buttons-view
@@ -31,7 +34,7 @@ var favorites = [];
     }).then((response) => {
       console.log(response);
       response.data.forEach((gif) => {
-        arr.push($(`<div class="gif"><i class="fas fa-heart not-favorite"></i><p class="gif-rating">Title: ${gif.title}<br />Rating: ${gif.rating}<br /><a href="${gif.source_post_url}">Source</a></p><img class="gif-image" alt="gif" src="${gif.images.downsized_still.url}" data-alt="${gif.images.downsized.url}"></div>`))
+        arr.push($(`<div class="gif"><i class="fas fa-heart not-favorite"></i><p class="gif-rating">Title: ${gif.title}<br />ID: ${gif.id}<br />Rating: ${gif.rating}<br /><a href="${gif.source_post_url}">Source</a></p><img class="gif-image" alt="gif" src="${gif.images.downsized_still.url}" data-alt="${gif.images.downsized.url}"></div>`))
       });
       gifDisplay.empty().append(...arr);
     });
@@ -73,6 +76,17 @@ gifDisplay.on("click", ".gif-image", function(event) { // animate gif
   animateGif(this);
 })
 
+gifDisplay.on("dblclick", ".gif-image", function(event) { // zoom/unzoom
+  if (!zoom) {
+    $(this).parent().css({"width":'100%'}); // zoom
+    zoom = true;
+  }
+  else if (zoom) {
+    $(this).parent().css({"width":'30%'}); // unzoom
+    zoom = false;
+  }
+})
+
 // code for favorites system
 gifDisplay.on("click", ".not-favorite", function(event) { // add favorite
   $(this).removeClass('not-favorite').addClass('favorite');
@@ -88,11 +102,11 @@ gifDisplay.on("click", ".favorite", function(event) { // remove favorite
   $('.favorites').empty().append(favorites);
 });
 
-$('.favorites-holder').on("click", ".favorite", function(event) { // remove favorite from within favorites holder
-  $(this).removeClass('favorite').addClass('not-favorite');
-  favorites.splice(favorites[$(this).parent()],1);
-  $('.favorites').empty().append(favorites);
-  console.log($('.gif-display .gif .gif-image')[0]);
+// $('.favorites-holder').on("click", ".favorite", function(event) { // remove favorite from within favorites holder
+//   $(this).removeClass('favorite').addClass('not-favorite');
+//   favorites.splice(favorites[$(this).parent()],1);
+//   $('.favorites').empty().append(favorites);
+//   console.log($('.gif-display .gif .gif-image')[0]);
   // synchronizes favorites icon appearance in gif viewer
   // $('.gif-display .gif .gif-image').forEach((element) => {
   //   if ($(element).data('alt') === $(this).attr('src') ||
@@ -102,7 +116,7 @@ $('.favorites-holder').on("click", ".favorite", function(event) { // remove favo
   //         $(element).removeClass('favorite').addClass('not-favorite');
   //       };
   // });
-});
+// });
 
 // initial function calls
 updateButtons();
