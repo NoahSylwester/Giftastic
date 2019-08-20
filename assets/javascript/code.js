@@ -13,6 +13,7 @@ var favorites = [];
 // initialize zoom boolean
 var zoom = false;
 
+
 // define functions
 
   // update .buttons-view
@@ -34,7 +35,7 @@ var zoom = false;
     }).then((response) => {
       console.log(response);
       response.data.forEach((gif) => {
-        arr.push($(`<div class="gif"><i class="fas fa-heart not-favorite"></i><p class="gif-rating">Title: ${gif.title}<br />ID: ${gif.id}<br />Rating: ${gif.rating}<br /><a href="${gif.source_post_url}">Source</a></p><img class="gif-image" alt="gif" src="${gif.images.downsized_still.url}" data-alt="${gif.images.downsized.url}"></div>`))
+        arr.push($(`<div class="gif" data-id="${gif.id}"><i class="fas fa-heart not-favorite"></i><p class="gif-rating">Title: ${gif.title}<br />Rating: ${gif.rating}<br /><a href="${gif.source_post_url}">Source</a></p><img class="gif-image" alt="gif" src="${gif.images.downsized_still.url}" data-alt="${gif.images.downsized.url}"></div>`))
       });
       gifDisplay.empty().append(...arr);
     });
@@ -76,7 +77,7 @@ gifDisplay.on("click", ".gif-image", function(event) { // animate gif
   animateGif(this);
 })
 
-gifDisplay.on("dblclick", ".gif-image", function(event) { // zoom/unzoom
+gifDisplay.on("dblclick", ".gif-image", function(event) { // zoom/unzoom for main content
   if (!zoom) {
     $(this).parent().css({"width":'100%'}); // zoom
     zoom = true;
@@ -87,36 +88,66 @@ gifDisplay.on("dblclick", ".gif-image", function(event) { // zoom/unzoom
   }
 })
 
+$('.favorites-holder').on("click", ".fav-gif-image", function(event) { // animate fav gif
+  animateGif(this);
+})
+
+$('.favorites-holder').on("dblclick", ".fav-gif-image", function(event) { // zoom/unzoom for favorites
+  if (!zoom) {
+    $(this).parent().css({"height":'150px'}); // zoom
+    zoom = true;
+  }
+  else if (zoom) {
+    $(this).parent().css({"height":'60px'}); // unzoom
+    zoom = false;
+  }
+})
+
 // code for favorites system
 gifDisplay.on("click", ".not-favorite", function(event) { // add favorite
   $(this).removeClass('not-favorite').addClass('favorite');
   if (!favorites.includes($(this).parent())){
-    favorites.push($(this).parent().clone());
+    let favGif = $(this).parent().clone().addClass('fav-gif');
+    favGif.children('.gif-rating').addClass('hidden');
+    favGif.children('.gif-image').addClass('fav-gif-image');
+    favorites.push(favGif);
   }
   $('.favorites').empty().append(favorites);
 });
 
 gifDisplay.on("click", ".favorite", function(event) { // remove favorite
+  let index;
   $(this).removeClass('favorite').addClass('not-favorite');
-  favorites.splice(favorites[$(this).parent()],1);
+  for (let i = 0; i < favorites.length; i++) {
+    if ($(this).parent().data('id') == $(favorites[i]).data('id')) {
+      index = i;
+    }
+  }
+  favorites.splice(index,1);
   $('.favorites').empty().append(favorites);
 });
 
-// $('.favorites-holder').on("click", ".favorite", function(event) { // remove favorite from within favorites holder
-//   $(this).removeClass('favorite').addClass('not-favorite');
-//   favorites.splice(favorites[$(this).parent()],1);
-//   $('.favorites').empty().append(favorites);
-//   console.log($('.gif-display .gif .gif-image')[0]);
+
+
+$('.favorites-holder').on("click", ".favorite", function(event) { // remove favorite from within favorites holder
+  $(this).removeClass('favorite').addClass('not-favorite');
+  for (let i = 0; i < favorites.length; i++) {
+    if ($(this).parent().data('id') == $(favorites[i]).data('id')) {
+      index = i;
+    }
+  }
+  favorites.splice(index,1);
+  $('.favorites').empty().append(favorites);
+
   // synchronizes favorites icon appearance in gif viewer
-  // $('.gif-display .gif .gif-image').forEach((element) => {
-  //   if ($(element).data('alt') === $(this).attr('src') ||
-  //       $(element).data('alt') === $(this).data('alt') ||
-  //       $(element).attr('src') === $(this).data('alt') ||
-  //       $(element).attr('src') === $(this).attr('src')) {
-  //         $(element).removeClass('favorite').addClass('not-favorite');
-  //       };
-  // });
-// });
+  var hearts = $('.gif-display .gif .fa-heart');
+  hearts.each((index) => {
+    console.log($(hearts[index]).parent().data('id'));
+    if ($(hearts[index]).parent().data('id') == $(this).parent().data('id')) {
+      $(hearts[index]).removeClass('favorite').addClass('not-favorite');
+      };
+  });
+});
 
 // initial function calls
 updateButtons();

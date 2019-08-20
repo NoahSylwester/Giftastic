@@ -98,3 +98,29 @@ form {
   border-radius: 5px;
   margin-top: 5px;
 }
+
+.fav-gif {
+  width: 100%;
+  height: 60px;
+  margin: 3px;
+  margin-top: 15px;
+  display: inline-block;
+  background: white;
+  border: solid 2px whitesmoke;
+  border-radius: 10px;
+  padding: 2px;
+  position: relative;
+}
+
+.fav-gif-image {
+  object-fit: cover;
+  object-position: 100% 20%;
+  height: 100%;
+  width: 80%;
+  border: solid 3px white;
+  border-radius: 5px;
+}
+
+.hidden {
+  display: none;
+}
