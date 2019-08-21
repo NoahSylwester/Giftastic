@@ -10,9 +10,6 @@ var newTopic = "";
 // initialize favorites array
 var favorites = [];
 
-// initialize zoom boolean
-var zoom = false;
-
 
 // define functions
 
@@ -96,13 +93,13 @@ $('.favorites-holder').on("click", ".fav-gif-image", function(event) { // animat
 })
 
 $('.favorites-holder').on("dblclick", ".fav-gif-image", function(event) { // zoom/unzoom for favorites
-  if (!zoom) {
+  if ($(this).attr('zoom') === "false") {
     $(this).parent().css({"height":'150px'}); // zoom
-    zoom = true;
+    $(this).attr({'zoom':'true'});
   }
-  else if (zoom) {
+  else if ($(this).attr('zoom') === "true") {
     $(this).parent().css({"height":'60px'}); // unzoom
-    zoom = false;
+    $(this).attr({'zoom':'false'});
   }
 })
 

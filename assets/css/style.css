@@ -91,6 +91,7 @@ form {
   border: solid 2px whitesmoke;
   border-radius: 5px;
   margin-top: 5px;
+  text-align: center;
 }
 
 .favorites {
@@ -110,6 +111,7 @@ form {
   border-radius: 10px;
   padding: 2px;
   position: relative;
+  text-align: left;
 }
 
 .fav-gif-image {
