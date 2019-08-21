@@ -90,11 +90,11 @@ gifDisplay.on("click", ".gif-image", function(event) { // animate gif
 
 gifDisplay.on("dblclick", ".gif-image", function(event) { // zoom/unzoom for main content
   if ($(this).attr('zoom') === "false") {
-    $(this).parent().css({"width":'100%'}); // zoom
+    $(this).parent().addClass('main-zoom'); // zoom
     $(this).attr({'zoom':'true'});
   }
   else if ($(this).attr('zoom') === "true") {
-    $(this).parent().css({"width":'30%'}); // unzoom
+    $(this).parent().removeClass('main-zoom'); // unzoom
     $(this).attr({'zoom':'false'});
   }
 })
@@ -105,11 +105,11 @@ $('.favorites-holder').on("click", ".fav-gif-image", function(event) { // animat
 
 $('.favorites-holder').on("dblclick", ".fav-gif-image", function(event) { // zoom/unzoom for favorites
   if ($(this).attr('zoom') === "false") {
-    $(this).parent().css({"height":'150px'}); // zoom
+    $(this).parent().addClass('fav-zoom'); // zoom
     $(this).attr({'zoom':'true'});
   }
   else if ($(this).attr('zoom') === "true") {
-    $(this).parent().css({"height":'60px'}); // unzoom
+    $(this).parent().removeClass('fav-zoom'); // unzoom
     $(this).attr({'zoom':'false'});
   }
 })

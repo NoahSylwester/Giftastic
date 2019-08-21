@@ -126,3 +126,11 @@ form {
 .hidden {
   display: none;
 }
+
+.main-zoom {
+  width: 100%;
+}
+
+.fav-zoom {
+  height: 150px;
+}
