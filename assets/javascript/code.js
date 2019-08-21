@@ -35,7 +35,7 @@ var zoom = false;
     }).then((response) => {
       console.log(response);
       response.data.forEach((gif) => {
-        arr.push($(`<div class="gif" data-id="${gif.id}"><i class="fas fa-heart not-favorite"></i><p class="gif-rating">Title: ${gif.title}<br />Rating: ${gif.rating}<br /><a href="${gif.source_post_url}">Source</a></p><img class="gif-image" alt="gif" src="${gif.images.downsized_still.url}" data-still="${gif.images.downsized_still.url}" data-animate="${gif.images.downsized.url}"></div>`))
+        arr.push($(`<div class="gif" data-id="${gif.id}"><i class="fas fa-heart not-favorite"></i><p class="gif-rating">Title: ${gif.title}<br />Rating: ${gif.rating}<br /><a href="${gif.source_post_url}">Source</a></p><img class="gif-image" alt="gif" src="${gif.images.downsized_still.url}" data-still="${gif.images.downsized_still.url}" data-animate="${gif.images.downsized.url}" zoom="false"></div>`))
       });
       gifDisplay.empty().append(...arr);
     });
@@ -53,8 +53,6 @@ var zoom = false;
   // animate gif for click event
   function animateGif(gif) {
     if ($(gif).attr('src').search(/giphy_s/) !== -1) {
-    // var alt = $(gif).data('alt'); // temporarily store the alt value
-      // $(gif).data("animate", $(gif).attr('src')); // switch the src with the data-alt, works in reverse too once the gif is running
       $(gif).attr({"src":$(gif).data('animate')});
     }
     else {
@@ -83,13 +81,13 @@ gifDisplay.on("click", ".gif-image", function(event) { // animate gif
 })
 
 gifDisplay.on("dblclick", ".gif-image", function(event) { // zoom/unzoom for main content
-  if (!zoom) {
+  if ($(this).attr('zoom') === "false") {
     $(this).parent().css({"width":'100%'}); // zoom
-    zoom = true;
+    $(this).attr({'zoom':'true'});
   }
-  else if (zoom) {
+  else if ($(this).attr('zoom') === "true") {
     $(this).parent().css({"width":'30%'}); // unzoom
-    zoom = false;
+    $(this).attr({'zoom':'false'});
   }
 })
 
