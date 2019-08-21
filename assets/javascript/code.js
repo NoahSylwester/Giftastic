@@ -49,7 +49,7 @@ var favorites = [];
 
   // animate gif for click event
   function animateGif(gif) {
-    if ($(gif).attr('src').search(/giphy_s/) !== -1) {
+    if ($(gif).attr('src').search(/_s\.gif/) !== -1) {
       $(gif).attr({"src":$(gif).data('animate')});
     }
     else {
