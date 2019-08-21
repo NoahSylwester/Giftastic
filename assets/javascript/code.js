@@ -56,6 +56,17 @@ var favorites = [];
       $(gif).attr({"src":$(gif).data('still')});
     }
   }
+  function displayFavorites() {
+    let favGifDisplay = [];
+    let displayVersion;
+    for (let i = 0; i < favorites.length; i++) {
+      displayVersion = favorites[i].clone().removeClass('fav-gif');
+      displayVersion.children('.gif-rating').removeClass('hidden');
+      displayVersion.children('.gif-image').removeClass('fav-gif-image');
+      favGifDisplay.push(displayVersion);
+    }
+    gifDisplay.empty().append(...favGifDisplay);
+  }
 
 
 // event listeners for buttons
@@ -147,6 +158,11 @@ $('.favorites-holder').on("click", ".favorite", function(event) { // remove favo
       $(hearts[index]).removeClass('favorite').addClass('not-favorite');
       };
   });
+});
+
+$('#show-favorites').on('click', function(event) {
+  event.preventDefault();
+  displayFavorites();
 });
 
 // initial function calls
