@@ -9,9 +9,22 @@ var newTopic = "";
 
 // initialize favorites array
 var favorites = [];
-
+var favoritesStorage = [];
 
 // define functions
+
+  // localStorage update
+  function updateLocalStorage() {
+    for (let i = 0; i < favorites.length; i++) {
+      let favObject = {
+        id: favorites[i].data('id'),
+        html: favorites[i].html()
+      }
+      favoritesStorage.push(favObject);
+    }
+    localStorage.clear();
+    localStorage.setItem("favorites", JSON.stringify(favoritesStorage));
+  };
 
   // update .buttons-view
   function updateButtons() {

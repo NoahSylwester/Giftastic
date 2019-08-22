@@ -57,7 +57,7 @@ form {
 }
 
 .not-favorite {
-  opacity: 0.1;
+  opacity: 0.3;
 }
 
 .favorite {
@@ -65,7 +65,7 @@ form {
 }
 
 .not-favorite:hover {
-  opacity: 0.4;
+  opacity: 0.5;
 }
 
 .favorite:hover {
