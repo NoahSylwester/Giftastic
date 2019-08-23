@@ -6,6 +6,7 @@ var gifDisplay = $('.gif-display');
 var topics = ["kittens", "puppies", "ducklings", "wombats", "bear cubs", 'ferrets'];
 var arr = [];
 var newTopic = "";
+var limit = 10;
 
 // initialize favorites array
 var favorites = [];
@@ -53,9 +54,9 @@ var favoritesStorage;
   };
 
   // update .gifs-view
-  function updateGifs(keyword) {
+  function updateGifs(keyword, limit = 10) {
     arr = [];
-    let queryUrl = "https://api.giphy.com/v1/gifs/search?api_key=nQtvdLS8RFmfo0CBFedERtrhHTq8NXas&q=" + keyword + "&limit=10";
+    let queryUrl = "https://api.giphy.com/v1/gifs/search?api_key=nQtvdLS8RFmfo0CBFedERtrhHTq8NXas&q=" + keyword + "&limit=" + limit;
     $.ajax({ // call the giphy API
       url: queryUrl,
       method: "GET"
@@ -79,11 +80,13 @@ var favoritesStorage;
       };
     });
   });
+
 };
 
   // search function for giphy api user input terms
   function userSubmit() {
     newTopic = $(".text-input").val().trim(); // grab text from the input box
+    limit = $(".limit-input").val().trim();
     if (!topics.includes(newTopic) && newTopic !== "") {
       topics.push(newTopic);
     }
@@ -115,7 +118,7 @@ var favoritesStorage;
 // event listeners for buttons
 buttonDisplay.on("click", ".btn-topic", function(event) { // pressing a topic button
   event.preventDefault();
-  updateGifs($(this).text());
+  updateGifs($(this).text(), limit);
 });
 
 $('.user-submit').on("click", function(event) { // submitting user typed search keyword
@@ -123,7 +126,7 @@ $('.user-submit').on("click", function(event) { // submitting user typed search 
   userSubmit();
   updateButtons();
   if (newTopic !== ""){
-    updateGifs(newTopic);
+    updateGifs(newTopic, limit);
   }
 });
 
