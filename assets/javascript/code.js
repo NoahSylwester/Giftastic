@@ -9,12 +9,29 @@ var newTopic = "";
 
 // initialize favorites array
 var favorites = [];
-var favoritesStorage = [];
+var favoritesStorage;
 
 // define functions
 
+  // fills favorites area on initial load from local storage
+  function fillFavoritesFromLocalStorage() {
+    favoritesStorage = JSON.parse(localStorage.getItem('favorites'));
+    for (let i = 0; i < favoritesStorage.length; i++) {
+      let storedElement = $(
+        `
+        <div class="gif fav-gif" data-id="${favoritesStorage[i].id}">
+          ${favoritesStorage[i].html}
+        </div>
+        `
+        );
+      favorites.push(storedElement);
+    }
+    $('.favorites').empty().append(favorites);
+  }
+
   // localStorage update
   function updateLocalStorage() {
+    favoritesStorage = [];
     for (let i = 0; i < favorites.length; i++) {
       let favObject = {
         id: favorites[i].data('id'),
@@ -47,9 +64,22 @@ var favoritesStorage = [];
       response.data.forEach((gif) => {
         arr.push($(`<div class="gif" data-id="${gif.id}"><i class="fas fa-heart not-favorite"></i><p class="gif-rating">Title: ${gif.title}<br />Rating: ${gif.rating}<br /><a href="${gif.source_post_url}">Source</a></p><img class="gif-image" alt="gif" src="${gif.images.downsized_still.url}" data-still="${gif.images.downsized_still.url}" data-animate="${gif.images.downsized.url}" zoom="false"></div>`))
       });
+      
       gifDisplay.empty().append(...arr);
+    }).then(() => {
+      // synchronize with favorites
+      var displayHearts = $('.gif-display .gif .fa-heart');
+      var favHearts = [];
+      $('.favorites .fav-gif .fa-heart').each((index) => {
+        favHearts.push($($('.favorites .fav-gif .fa-heart')[index]).parent().data('id'));
+      });
+      displayHearts.each((index) => {
+      if (favHearts.includes($(displayHearts[index]).parent().data('id'))) {
+        $(displayHearts[index]).removeClass('not-favorite').addClass('favorite');
+      };
     });
-  };
+  });
+};
 
   // search function for giphy api user input terms
   function userSubmit() {
@@ -137,6 +167,7 @@ gifDisplay.on("click", ".not-favorite", function(event) { // add favorite
     favorites.push(favGif);
   }
   $('.favorites').empty().append(favorites);
+  updateLocalStorage();
 });
 
 gifDisplay.on("click", ".favorite", function(event) { // remove favorite
@@ -149,6 +180,7 @@ gifDisplay.on("click", ".favorite", function(event) { // remove favorite
   }
   favorites.splice(index,1);
   $('.favorites').empty().append(favorites);
+  updateLocalStorage();
 });
 
 
@@ -171,6 +203,7 @@ $('.favorites-holder').on("click", ".favorite", function(event) { // remove favo
       $(hearts[index]).removeClass('favorite').addClass('not-favorite');
       };
   });
+  updateLocalStorage();
 });
 
 $('#show-favorites').on('click', function(event) {
@@ -181,3 +214,4 @@ $('#show-favorites').on('click', function(event) {
 // initial function calls
 updateButtons();
 updateGifs("kittens");
+fillFavoritesFromLocalStorage();
